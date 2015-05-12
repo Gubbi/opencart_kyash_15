@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification
+        xmlns="https://github.com/vqmod/vqmod"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="https://github.com/vqmod/vqmod https://raw.githubusercontent.com/vqmod/vqmod/master/vqmod.xsd">
+    >
+    <id>Kyash Modifications</id>
+    <version>1.0</version>
+    <vqmver>2.X</vqmver>
+    <author>Bilent Services Private Limited</author>
+    <file name="admin/controller/sale/order.php">
+        <operation info="Modifying catalog/controller/api/order.php[For Edit Button]">
+            <search index="2" trim="true" position="before" regex="false"><![CDATA[
+            $this->redirect($this->url->link('sale/order', 'token=' . $this->session->data['token'] . $url, 'SSL'));
+            ]]></search>
+            <add><![CDATA[
+            //Begin Kyash
+            $this->load->model('payment/kyash');
+            $response = $this->model_payment_kyash->update($this->request->get['order_id']);
+            if(!empty($response)) $this->session->data['success'] .= $response;
+            //End Kyash
+            ]]></add>
+        </operation>
+        <operation info="Modifying catalog/controller/api/order.php[For View Button]">
+            <search position="before" regex="false"><![CDATA[
+            $this->template = 'sale/order_history.tpl';
+            ]]></search>
+            <add><![CDATA[
+            //Begin Kyash
+            $this->load->model('payment/kyash');
+            $response = $this->model_payment_kyash->update($this->request->get['order_id']);
+            if(!empty($response)) $this->data['success'] .= $response;
+            //End Kyash
+            ]]></add>
+        </operation>
+    </file>
+    <file name="catalog/view/theme/default/template/common/success.tpl">
+        <operation info="Modifying catalog/view/theme/default/template/common/success.tpl">
+            <search position="before"><![CDATA[
+            <?php echo $content_bottom; ?></div>
+            ]]></search>
+            <add><![CDATA[
+            <!-- Begin Kyash -->
+            <?php if(isset($kyash_content)) { echo $kyash_content; } ?>
+            <!-- End Kyash -->
+            ]]></add>
+        </operation>
+    </file>
+    <file name="catalog/controller/checkout/success.php">
+        <operation info="Modifying catalog/controller/checkout/success.php">
+            <search position="before" regex="false"><![CDATA[
+            $this->response->setOutput($this->render());
+            ]]></search>
+            <add><![CDATA[
+            //Begin Kyash
+            $this->load->model('payment/kyash');
+            $this->data['kyash_content'] = $this->model_payment_kyash->getSuccessContent($this->request->get['order_id']);
+            //End Kyash
+            ]]></add>
+        </operation>
+    </file>
+</modification>
