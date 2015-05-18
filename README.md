@@ -28,6 +28,21 @@ OpenCart 1.5 Integration Kit for the [Kyash Payment Gateway](http://www.kyash.co
 7. You should see a ```Mark as Paid``` button there.
 8. Clicking this should change the order status from *Pending* to *Processing* in your OpenCart order details page.
 
+## Paid and Expired KyashCodes are not being marked as such in Opencart.
+Once you have successfully installed Kyash extension, if your orders are not being marked as paid after payment is done, then follow the below steps.
+
+* Configure the Kyash Extension using your Kyash *Development API Credentials*.
+* Create a test order with Kyash as the payment option.
+* Note down the KyashCode returned.
+* Login to your Kyash account and search for the KyashCode.
+* Mark it as Paid.
+* Check if the order status changes from "pending" to "processing" in opencart.
+* If the status has not changed, then make the following entry in your .htaccess file just after the ```RewriteEngine On``` entry.
+```
+RewriteCond %{HTTP:Authorization} .+
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+```
+* Create another test order and mark it as paid to see if the issue is now fixed.
 
 ## Support
 Contact developers@kyash.com for any issues you might be facing with this Kyash extension or call +91 8050114225.
