@@ -15,7 +15,7 @@ trait KyashModel {
         $this->logger = new Log('kyash.log');
 
         require_once(DIR_SYSTEM . 'lib/KyashPay.php');
-        $this->api = new KyashPay($this->settings['kyash_public_api_id'], $this->settings['kyash_api_secrets'], $this->settings['kyash_callback_secret'], $this->settings['kyash_hmac_secret']);
+        $this->api = new KyashPay($this->lookup($this->settings, 'kyash_public_api_id'), $this->lookup($this->settings, 'kyash_api_secrets'), $this->lookup($this->settings, 'kyash_callback_secret'), $this->lookup($this->settings, 'kyash_hmac_secret'));
         $this->api->setLogger($this->logger);
     }
 
