@@ -5,7 +5,7 @@
         xsi:schemaLocation="https://github.com/vqmod/vqmod https://raw.githubusercontent.com/vqmod/vqmod/master/vqmod.xsd">
     >
     <id>Kyash Modifications</id>
-    <version>1.0</version>
+    <version>1.1</version>
     <vqmver>2.X</vqmver>
     <author>Bilent Services Private Limited</author>
     <file name="admin/controller/sale/order.php">
@@ -47,6 +47,16 @@
         </operation>
     </file>
     <file name="catalog/controller/checkout/success.php">
+        <operation info="New variable catalog/controller/checkout/success.php">
+            <search position="before" regex="false"><![CDATA[
+            $this->cart->clear();
+            ]]></search>
+            <add><![CDATA[
+            //Begin Kyash
+            $this->data['order_id'] = $this->session->data['order_id'];
+            //End Kyash
+            ]]></add>
+        </operation>
         <operation info="Modifying catalog/controller/checkout/success.php">
             <search position="before" regex="false"><![CDATA[
             $this->response->setOutput($this->render());
@@ -54,7 +64,9 @@
             <add><![CDATA[
             //Begin Kyash
             $this->load->model('payment/kyash');
-            $this->data['kyash_content'] = $this->model_payment_kyash->getSuccessContent($this->request->get['order_id']);
+            if (isset($this->data['order_id'])) {
+                $this->data['kyash_content'] = $this->model_payment_kyash->getSuccessContent($this->data['order_id']);
+            }
             //End Kyash
             ]]></add>
         </operation>
