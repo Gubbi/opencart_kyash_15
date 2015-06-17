@@ -33,7 +33,7 @@ class ModelPaymentKyash extends Model {
 		
 			$method_data = array(
 				'code'       => 'kyash',
-				'title'      => $this->language->get('text_title').$additional,
+				'title'      => sprintf($this->language->get('text_title').$additional, $this->config->get('kyash_pg_text')?: 'Kyash - Pay at a nearby Shop'),
 				'sort_order' => $this->config->get('kyash_sort_order')
 			);
 		}

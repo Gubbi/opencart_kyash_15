@@ -20,6 +20,6 @@
                 <td><?php echo $payment['address']?></td>
             </tr>
         <?php endforeach;?>
-        <tbody>
+        </tbody>
     </table>
 <?php endif;?>

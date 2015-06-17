@@ -10,7 +10,7 @@
   <?php } ?>
   <div class="box">
     <div class="heading">
-      <h1><img src="view/image/payment.png" alt="" /> <?php echo $heading_title; ?></h1>
+      <h1><img src="view/image/payment/kyash.png" alt="Kyash" width="90"/></h1>
       <div class="buttons"><a onclick="$('#form').submit();" class="button"><?php echo $button_save; ?></a><a href="<?php echo $cancel; ?>" class="button"><?php echo $button_cancel; ?></a></div>
     </div>
     <div class="content">
@@ -47,6 +47,10 @@
           <tr>
             <td><?php echo $entry_callback_url; ?></td>
             <td><strong><?php echo HTTP_CATALOG.'index.php?route=payment/kyash/handler'?></strong></td>
+          </tr>
+          <tr>
+            <td><?php echo $entry_pg_text; ?></td>
+            <td><input type="text" name="kyash_pg_text"  value="<?php echo $pg_text; ?>" /></td>
           </tr>
           <tr>
             <td><?php echo $entry_instructions; ?></td>
