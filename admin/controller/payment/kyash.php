@@ -14,14 +14,14 @@ class ControllerPaymentKyash extends Controller {
 		$this->model_payment_kyash->uninstall();
     }
 
-	public function index() 
+	public function index()
 	{
 		$this->language->load('payment/kyash');
 		$this->document->setTitle($this->language->get('heading_title'));
 		$this->load->model('setting/setting');
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
-			$this->model_setting_setting->editSetting('kyash', $this->request->post);				
+			$this->model_setting_setting->editSetting('kyash', $this->request->post);
 
 			$this->session->data['success'] = $this->language->get('text_success');
 
@@ -34,14 +34,15 @@ class ControllerPaymentKyash extends Controller {
 		$this->data['text_disabled'] = $this->language->get('text_disabled');
 		$this->data['text_all_zones'] = $this->language->get('text_all_zones');
 		$this->data['text_payment'] = $this->language->get('text_payment');
-		
+
 		$this->data['entry_public_api_id'] = $this->language->get('entry_public_api_id');
 		$this->data['entry_api_secrets'] = $this->language->get('entry_api_secrets');
 		$this->data['entry_callback_secret'] = $this->language->get('entry_callback_secret');
 		$this->data['entry_callback_url'] = $this->language->get('entry_callback_url');
+        $this->data['entry_pg_text'] = $this->language->get('entry_pg_text');
 		$this->data['entry_instructions'] = $this->language->get('entry_instructions');
 
-		$this->data['entry_total'] = $this->language->get('entry_total');	
+		$this->data['entry_total'] = $this->language->get('entry_total');
 		$this->data['entry_geo_zone'] = $this->language->get('entry_geo_zone');
 		$this->data['entry_status'] = $this->language->get('entry_status');
 		$this->data['entry_sort_order'] = $this->language->get('entry_sort_order');
@@ -54,13 +55,13 @@ class ControllerPaymentKyash extends Controller {
 		} else {
 			$this->data['error_warning'] = '';
 		}
-		
+
 		if (isset($this->error['public_api_id'])) {
 			$this->data['error_public_api_id'] = $this->error['public_api_id'];
 		} else {
 			$this->data['error_public_api_id'] = '';
 		}
-		
+
 		if (isset($this->error['api_secrets'])) {
 			$this->data['error_api_secrets'] = $this->error['api_secrets'];
 		} else {
@@ -72,7 +73,7 @@ class ControllerPaymentKyash extends Controller {
 		} else {
 			$this->data['error_callback_secret'] = '';
 		}
-		
+
 		if (isset($this->error['hmac_secret'])) {
 			$this->data['error_hmac_secret'] = $this->error['hmac_secret'];
 		} else {
@@ -83,7 +84,7 @@ class ControllerPaymentKyash extends Controller {
 
 		$this->data['breadcrumbs'][] = array(
 			'text'      => $this->language->get('text_home'),
-			'href'      => $this->url->link('common/home', 'token=' . $this->session->data['token'], 'SSL'),      		
+			'href'      => $this->url->link('common/home', 'token=' . $this->session->data['token'], 'SSL'),
 			'separator' => false
 		);
 
@@ -121,14 +122,25 @@ class ControllerPaymentKyash extends Controller {
 		} else {
 			$this->data['callback_secret'] = $this->config->get('kyash_callback_secret');
 		}
-		
+
 		if (isset($this->request->post['kyash_hmac_secret'])) {
 			$this->data['hmac_secret'] = $this->request->post['kyash_hmac_secret'];
 		} else {
 			$this->data['hmac_secret'] = $this->config->get('kyash_hmac_secret');
 		}
-		
+
 		$this->data['callback_url'] = 'URL';
+
+        if (isset($this->request->post['kyash_pg_text'])) {
+                $this->data['pg_text'] = $this->request->post['kyash_pg_text'];
+        } else {
+            $this->data['pg_text'] = $this->config->get('kyash_pg_text');
+            if(empty($this->data['pg_text']))
+            {
+                $this->data['pg_text'] = 'Kyash - Pay at a nearby Shop';
+            }
+        }
+
 
 		if (isset($this->request->post['kyash_instructions'])) {
 			$this->data['instructions'] = $this->request->post['kyash_instructions'];
