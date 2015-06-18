@@ -39,6 +39,7 @@ class ControllerPaymentKyash extends Controller {
 		$this->data['entry_api_secrets'] = $this->language->get('entry_api_secrets');
 		$this->data['entry_callback_secret'] = $this->language->get('entry_callback_secret');
 		$this->data['entry_callback_url'] = $this->language->get('entry_callback_url');
+		$this->data['entry_pg_text'] = $this->language->get('entry_pg_text');
 		$this->data['entry_instructions'] = $this->language->get('entry_instructions');
 
 		$this->data['entry_total'] = $this->language->get('entry_total');	
@@ -129,6 +130,16 @@ class ControllerPaymentKyash extends Controller {
 		}
 		
 		$this->data['callback_url'] = 'URL';
+
+        if (isset($this->request->post['kyash_pg_text'])) {
+            $this->data['pg_text'] = $this->request->post['kyash_pg_text'];
+        } else {
+            $this->data['pg_text'] = $this->config->get('kyash_pg_text');
+            if(empty($this->data['pg_text']))
+            {
+                $this->data['pg_text'] = 'Kyash - Pay at a nearby Shop';
+            }
+        }
 
 		if (isset($this->request->post['kyash_instructions'])) {
 			$this->data['instructions'] = $this->request->post['kyash_instructions'];
