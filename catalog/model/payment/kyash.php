@@ -103,6 +103,7 @@ class ModelPaymentKyash extends Model {
             'shipping_contact.phone' => $order_info['telephone']
         );
 		
+		ksort($params);
 		return http_build_query($params);
     }
 

@@ -7,7 +7,8 @@ class KyashPay {
     public $hmac = NULL;
     public $callback_secret = NULL;
     public $logger = NULL;
-    public $use_https = true;
+    public $use_https = false;
+
 
     public function __construct($key, $secret, $callback_secret, $hmac) {
         $this->key = $key;
@@ -69,8 +70,17 @@ class KyashPay {
                 header("HTTP/1.1 401 Unauthorized");
                 return;
             }
-
-            $prepared_signature = $this->signature('POST', $req_url, $_REQUEST);
+            
+            $normalized_request_string = '';
+            ksort($_REQUEST);
+            foreach ($_REQUEST as $key => $value) {
+                if($key == 'route') {
+                    continue;
+                }
+                $normalized_request_string .= empty($normalized_request_string)? '' : '&';
+                $normalized_request_string .= $key . '=' . $value;
+            }
+            $prepared_signature = $this->signature('POST', $req_url, $normalized_request_string);
             $this->log($authorization . '\n' . $prepared_signature);
 
             if ($authorization !== $prepared_signature) {
@@ -113,18 +123,8 @@ class KyashPay {
     }
 
     public function signature($method, $url, $data){
-        $normalized_request_string = '';
-        ksort($data);
-        foreach ($data as $key => $value) {
-            if($key == 'route') {
-                continue;
-            }
-            $normalized_request_string .= empty($normalized_request_string)? '' : '%26';
-            $normalized_request_string .= urlencode(utf8_encode($key) . '=' . utf8_encode($value));
-        }
-
         //prepare request signature
-        $request = urlencode($method) . '&' . urlencode($url) . '&' . $normalized_request_string;
+        $request = urlencode($method) . '&' . urlencode($url) . '&' . urlencode(utf8_encode(str_replace( array( '+','~' ), array('%20', '%7E'), $data)));
         $this->log('Normalized request string:' . $request);
 
         $signature = base64_encode(hash_hmac('sha256', $request, $this->hmac, true));
@@ -178,4 +178,3 @@ class KyashPay {
     }
 }
 ?>
-
