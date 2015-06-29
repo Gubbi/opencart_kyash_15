@@ -122,7 +122,24 @@ class KyashPay {
         $this->logger = $object;
     }
 
+    public function parse_qs($data)
+    {
+        $data = preg_replace_callback('/(?:^|(?<=&))[^=[]+/', function($match) {
+            return bin2hex(urldecode($match[0]));
+        }, $data);
+
+        parse_str($data, $values);
+
+        return array_combine(array_map('hex2bin', array_keys($values)), $values);
+    }
+
     public function signature($method, $url, $data){
+        if($data){
+            $assoc_data = $this->parse_qs($data);
+            ksort($assoc_data);
+            $query_data = http_build_query($assoc_data);
+        }
+        
         //prepare request signature
         $request = urlencode($method) . '&' . urlencode($url) . '&' . urlencode(utf8_encode(str_replace( array( '+','~' ), array('%20', '%7E'), $data)));
         $this->log('Normalized request string:' . $request);
