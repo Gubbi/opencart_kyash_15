@@ -71,16 +71,7 @@ class KyashPay {
                 return;
             }
             
-            $normalized_request_string = '';
-            ksort($_REQUEST);
-            foreach ($_REQUEST as $key => $value) {
-                if($key == 'route') {
-                    continue;
-                }
-                $normalized_request_string .= empty($normalized_request_string)? '' : '&';
-                $normalized_request_string .= $key . '=' . $value;
-            }
-            $prepared_signature = $this->signature('POST', $req_url, $normalized_request_string);
+            $prepared_signature = $this->signature('POST', $req_url, $_REQUEST);
             $this->log($authorization . '\n' . $prepared_signature);
 
             if ($authorization !== $prepared_signature) {
@@ -134,14 +125,22 @@ class KyashPay {
     }
 
     public function signature($method, $url, $data){
+        $tmp_data = array();
         if($data){
-            $assoc_data = $this->parse_qs($data);
+            $assoc_data = is_array($data) ? $data : $this->parse_qs($data);
+            $this->log('assoc_data:' . $assoc_data);
             ksort($assoc_data);
-            $query_data = http_build_query($assoc_data);
+            foreach ($assoc_data as $key => $value) {
+                if($key == 'route' || $key == 'action') {
+                    continue;
+                }
+                $tmp_data[$key] = $value;
+            }
+            $query_data = http_build_query($tmp_data);
         }
         
         //prepare request signature
-        $request = urlencode($method) . '&' . urlencode($url) . '&' . urlencode(utf8_encode(str_replace( array( '+','~' ), array('%20', '%7E'), $data)));
+        $request = urlencode($method) . '&' . urlencode($url) . '&' . urlencode(utf8_encode(str_replace( array( '+','~' ), array('%20', '%7E'), $query_data)));
         $this->log('Normalized request string:' . $request);
 
         $signature = base64_encode(hash_hmac('sha256', $request, $this->hmac, true));
