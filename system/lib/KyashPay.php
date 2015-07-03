@@ -126,6 +126,8 @@ class KyashPay {
 
     public function signature($method, $url, $data){
         $tmp_data = array();
+        $request = urlencode($method) . '&' . urlencode($url) . '&';
+        
         if($data){
             $assoc_data = is_array($data) ? $data : $this->parse_qs($data);
             $this->log('assoc_data:' . $assoc_data);
@@ -137,10 +139,10 @@ class KyashPay {
                 $tmp_data[$key] = $value;
             }
             $query_data = http_build_query($tmp_data);
+            $request = $request . urlencode(utf8_encode(str_replace(array( '+','~' ), array('%20', '%7E'), $query_data)));
         }
         
         //prepare request signature
-        $request = urlencode($method) . '&' . urlencode($url) . '&' . urlencode(utf8_encode(str_replace( array( '+','~' ), array('%20', '%7E'), $query_data)));
         $this->log('Normalized request string:' . $request);
 
         $signature = base64_encode(hash_hmac('sha256', $request, $this->hmac, true));
