@@ -130,7 +130,6 @@ class KyashPay {
         
         if($data){
             $assoc_data = is_array($data) ? $data : $this->parse_qs($data);
-            $this->log('assoc_data:' . $assoc_data);
             ksort($assoc_data);
             foreach ($assoc_data as $key => $value) {
                 if($key == 'route' || $key == 'action') {
