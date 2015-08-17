@@ -132,7 +132,7 @@ class ControllerPaymentKyash extends Controller {
 		$this->data['callback_url'] = 'URL';
 
         if (isset($this->request->post['kyash_pg_text'])) {
-                $this->data['pg_text'] = $this->request->post['kyash_pg_text'];
+            $this->data['pg_text'] = $this->request->post['kyash_pg_text'];
         } else {
             $this->data['pg_text'] = $this->config->get('kyash_pg_text');
             if(empty($this->data['pg_text']))
