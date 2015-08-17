@@ -1,7 +1,7 @@
 <?php
 
 class KyashPay {
-    private static $baseUri = 'http://api.kyash.in/v1';
+    private static $baseUri = 'https://api.kyash.in/v1';
     public $key = '';
     public $secret = '';
     public $hmac = NULL;
