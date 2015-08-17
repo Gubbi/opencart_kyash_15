@@ -1,14 +1,12 @@
 <?php
 require_once(DIR_SYSTEM . 'lib/common.php');
 
-class ModelPaymentKyash extends Model {
-    use KyashModel;
+class ModelPaymentKyash extends KyashModel {
 
     function __construct($params) {
         parent::__construct($params);
         $this->load->model('checkout/order');
         $this->model_order = $this->model_checkout_order;
-        $this->init();
     }
 
 	public function getMethod($address, $total) {

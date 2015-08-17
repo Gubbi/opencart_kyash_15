@@ -6,8 +6,9 @@
  * Time: 2:49 PM
  */
 
-trait KyashModel {
-    function init() {
+class KyashModel extends Model {
+    function __construct($params) {
+        parent::__construct($params);
         $this->load->model('setting/setting');
         $this->settings = $this->model_setting_setting->getSetting('kyash');
 
