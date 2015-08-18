@@ -7,7 +7,7 @@ class KyashPay {
     public $hmac = NULL;
     public $callback_secret = NULL;
     public $logger = NULL;
-    public $use_https = false;
+    public $use_https = true;
 
 
     public function __construct($key, $secret, $callback_secret, $hmac) {
