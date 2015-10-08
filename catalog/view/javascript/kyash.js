@@ -26,7 +26,7 @@ $(document).ready(function () {
 });
 
 function openShops(url, loader) {
-    $("#kyash_postcode_payment_sub").show();
+    //$("#kyash_postcode_payment_sub").show();
     $("#see_nearby_shops_container").hide();
     selectKyash();
     $("#kyash_open").hide();
