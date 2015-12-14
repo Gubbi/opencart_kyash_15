@@ -1,5 +1,25 @@
 <?php if(count($payments) == 0):?>
 	<div class="notice">No shops available</div>
 <?php else:?>
-    <iframe src="<?php echo $payments['widget'] ?>" frameborder="0" style="border: none; width: 100%;"></iframe>
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" id="payment_points" class="data-table">
+    	<colgroup>
+            <col style="width:200px;">
+            <col>
+        </colgroup>
+        <thead>
+            <tr>
+                <th>Shop Name</th>
+                <th>Address</th>
+            </tr>
+        </thead>
+        <tbody>
+        <?php $index = 1; ?>
+		<?php foreach($payments as $payment):?>
+            <tr class="<?php echo ((($index++)%2) == 0 ? 'even' : 'odd')?>">
+                <td><?php echo $payment['shop_name']?></td>
+                <td><?php echo $payment['address']?></td>
+            </tr>
+        <?php endforeach;?>
+        </tbody>
+    </table>
 <?php endif;?>

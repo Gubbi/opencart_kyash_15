@@ -1,13 +1,13 @@
 <?php
 
 class KyashPay {
-    private static $baseUri = 'https://api.kyash.in/v1';
+    private static $baseUri = 'http://localhost:8082/v1';
     public $key = '';
     public $secret = '';
     public $hmac = NULL;
     public $callback_secret = NULL;
     public $logger = NULL;
-    public $use_https = true;
+    public $use_https = false;
 
 
     public function __construct($key, $secret, $callback_secret, $hmac) {
@@ -40,6 +40,10 @@ class KyashPay {
 
     public function getPaymentPoints($pincode) {
         return $this->api_request(self::$baseUri . '/paymentpoints/' . $pincode);
+    }
+
+    public function getPaymentPointsWidget($pincode) {
+        return $this->api_request(self::$baseUri . '/paymentpoints/widget/' . $pincode);
     }
 
     public function callback_handler($order, $kyash_code, $kyash_status, $req_url) {

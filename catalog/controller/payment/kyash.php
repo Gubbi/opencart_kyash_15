@@ -52,18 +52,25 @@ class ControllerPaymentKyash extends Controller
 
     public function getPaymentPoints()
     {
-        $this->displayPaymentPointsList('/template/payment/kyash/payment_points.tpl');
+        $this->displayPaymentPointsList('/template/payment/kyash/payment_points.tpl', 'type1');
     }
 
     public function getPaymentPoints2()
     {
-        $this->displayPaymentPointsList('/template/payment/kyash/payment_points2.tpl');
+        $this->displayPaymentPointsList('/template/payment/kyash/payment_points2.tpl', 'type2');
     }
 
-    protected function displayPaymentPointsList($success_tpl_path)
+    protected function displayPaymentPointsList($success_tpl_path, $ofType)
     {
         $pincode = $this->request->get['postcode'];
-        $response = $this->api->getPaymentPoints($pincode);
+        //$kyash_code = $this->request->get['kyash_code'];
+        if($ofType === 'type1') {
+            $response = $this->api->getPaymentPoints($pincode);
+        }
+        else if($ofType === 'type2') {
+            $response = $this->api->getPaymentPointsWidget($pincode);
+        }
+
         $this->data = array();
         if (isset($response['status']) && $response['status'] === 'error') {
             $this->data['error'] = $response['message'];
