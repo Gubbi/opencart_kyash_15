@@ -42,6 +42,10 @@ class KyashPay {
         return $this->api_request(self::$baseUri . '/paymentpoints/' . $pincode);
     }
 
+    public function getPaymentPointsWidget($pincode) {
+        return $this->api_request(self::$baseUri . '/paymentpoints/widget/' . $pincode);
+    }
+
     public function callback_handler($order, $kyash_code, $kyash_status, $req_url) {
         $scheme = parse_url($req_url, PHP_URL_SCHEME);
 
