@@ -1,5 +1,9 @@
 <?php if(count($payments) == 0):?>
 <div class="notice">No shops available</div>
 <?php else:?>
-<iframe src="<?php echo $payments['widget'] ?>" id="kyash_contents" height="400px" frameborder="0" style="border: none; width: 100%;"></iframe>
+<div xmlns:kyash="http://www.w3.org/1999/xhtml">
+    <kyash:code merchant_id="<?php echo $payments['id'] ?>" postal_code="<?php echo $payments['postal_code']?>"
+                kyash_code="<?php echo $payments['kyash_code']?>"></kyash:code>
+    <script type="text/javascript" src="<?php echo $payments['widget']; ?>"></script>
+</div>
 <?php endif;?>

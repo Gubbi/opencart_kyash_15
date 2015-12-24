@@ -63,12 +63,12 @@ class ControllerPaymentKyash extends Controller
     protected function displayPaymentPointsList($success_tpl_path, $ofType)
     {
         $pincode = $this->request->get['postcode'];
-        //$kyash_code = $this->request->get['kyash_code'];
         if($ofType === 'type1') {
             $response = $this->api->getPaymentPoints($pincode);
         }
         else if($ofType === 'type2') {
-            $response = $this->api->getPaymentPointsWidget($pincode);
+            $kyashcode = $this->request->get['kyashcode'];
+            $response = $this->api->getPaymentPointsWidget($pincode, $kyashcode);
         }
 
         $this->data = array();

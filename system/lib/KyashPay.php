@@ -34,7 +34,7 @@ class KyashPay {
 
     public function cancel($kyash_code, $reason='requested_by_customer') {
         $url = self::$baseUri . '/kyashcodes/' . $kyash_code . '/cancel';
-        $params = "reason=".$reason;
+        $params = "reason=" . $reason;
         return $this->api_request($url, $params);
     }
 
@@ -42,8 +42,9 @@ class KyashPay {
         return $this->api_request(self::$baseUri . '/paymentpoints/' . $pincode);
     }
 
-    public function getPaymentPointsWidget($pincode) {
-        return $this->api_request(self::$baseUri . '/paymentpoints/widget/' . $pincode);
+    public function getPaymentPointsWidget($pincode, $kyashcode) {
+        $params = 'kyash_code=' . $kyashcode;
+        return $this->api_request(self::$baseUri . '/paymentpoints/widget/' . $pincode, $params);
     }
 
     public function callback_handler($order, $kyash_code, $kyash_status, $req_url) {

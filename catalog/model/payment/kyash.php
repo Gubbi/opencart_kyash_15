@@ -146,6 +146,7 @@ class ModelPaymentKyash extends KyashModel {
 				<input type="text" class="input-text" id="postcode" value="'.$postcode.'" maxlength="12" style="width:120px; text-align:center" 
 				onblur="if(this.value ==\'\'){this.value=\'Enter Pincode\';}" 
 				onclick="if(this.value == \'Enter Pincode\'){this.value=\'\';}" />
+				<input type="hidden" id="kyash_code" value="'.$kyash_code.'">
 				<input type="button" class="button" id="kyash_postcode_button" value="See nearby shops" onclick=\'preparePullShops("' . $url . '");\'>
 			</div>
 			<div style="display: none" id="see_nearby_shops_container" class="content">
