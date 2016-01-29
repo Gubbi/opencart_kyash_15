@@ -31,7 +31,7 @@ class ModelPaymentKyash extends KyashModel {
 		
 			$method_data = array(
 				'code'       => 'kyash',
-				'title'      => sprintf($this->language->get('text_title').$additional, $this->config->get('kyash_pg_text')?: 'Kyash - Pay at a nearby Shop'),
+				'title'      => $this->language->get('text_title').$additional,
 				'sort_order' => $this->config->get('kyash_sort_order')
 			);
 		}
@@ -42,31 +42,19 @@ class ModelPaymentKyash extends KyashModel {
 	public function getShopsLink($postcode)
 	{
 		$this->language->load('payment/kyash');
-		if(empty($postcode))
-		{
-			$postcode = 'Enter Pincode';
-		}
-		$url = $this->url->link('payment/kyash/getPaymentPoints');
+
         $css = '<link href="catalog/view/theme/default/stylesheet/kyash.css" rel="stylesheet">';
 
 		$html = '
-		<span id="kyash_postcode_payment">
-			<a href="javascript:void(0);" onclick=\'openShops("'.$url.'","")\' id="kyash_open">
-			See nearby shops
-			</a>
-		   
-			<span id="kyash_postcode_payment_sub">
-				<input type="text" class="input-text" id="kyash_postcode" value="'.$postcode.'" maxlength="12" />
-				<input type="button" class="button" id="kyash_postcode_button" value="See nearby shops" onclick=\'pullNearByShops("'.$url.'","")\'>
-				<a href="javascript:void(0);" onclick="closeShops()" id="kyash_close" style="float:right">X</a>
-			</span>
-		</span>
-		<div style="display: none" id="see_nearby_shops_container" class="content">
-		</div>';
+        <script type="text/javascript" src="//secure.kyash.com/outlets.js"></script>
+		<div style="display: none" id="see_nearby_shops_container">
+		    <kyash:code div="#see_nearby_shops_container" merchant_id="'.$this->settings["kyash_public_api_id"].'" postal_code="'.$postcode.'"></kyash:code>
+		</div>
+		<p id="kyash_payment_instructions">Product will be sent to the shipping address only after payment. If order is cancelled or not delivered, you can avail refund as per our policies.</p>';
 
         $js = '<script src="catalog/view/javascript/kyash.js" type="text/javascript"></script>';
 
-        return $css.$html.$js;
+        return $css.$js.$html;
 	}
 
 	public function getOrderParams($order_info)
@@ -133,31 +121,15 @@ class ModelPaymentKyash extends KyashModel {
                 $postcode = 'Enter Pincode';
             }
 
-			$url = $this->url->link('payment/kyash/getPaymentPoints2');
             $css = '<link href="catalog/view/theme/default/stylesheet/kyash.css" rel="stylesheet">';
-		
 			$html = '
-			<div class="kyash_succcess_instructions" style="border-top:1px solid #ededed;">
-				<h1>KyashCode: '.$kyash_code.'</h1>
-				<p><span>KyashCode expires on ' . $kc_expires_on . '</span></p>
-				<p>' . nl2br(html_entity_decode($this->settings['kyash_instructions'])) . '</p>
-			</div>
-			<div class="kyash_succcess_instructions">
-				<input type="text" class="input-text" id="postcode" value="'.$postcode.'" maxlength="12" style="width:120px; text-align:center" 
-				onblur="if(this.value ==\'\'){this.value=\'Enter Pincode\';}" 
-				onclick="if(this.value == \'Enter Pincode\'){this.value=\'\';}" />
-				<input type="hidden" id="kyash_code" value="'.$kyash_code.'">
-				<input type="button" class="button" id="kyash_postcode_button" value="See nearby shops" onclick=\'preparePullShops("' . $url . '");\'>
-			</div>
-			<div style="display: none" id="see_nearby_shops_container" class="content">
-			</div>
-			';
+            <script type="text/javascript" src="//secure.kyash.com/outlets.js"></script>
+			<div style="display: none" id="see_nearby_shops_container">
+			    <kyash:code div="#see_nearby_shops_container" merchant_id="'.$this->settings["kyash_public_api_id"].'" postal_code="'.$postcode.'" kyash_code="'.$kyash_code.'"></kyash:code>
+			</div>';
 
-            $js = '
-			<script src="catalog/view/javascript/kyash_success.js" type="text/javascript"></script>
-			<script>preparePullShops("' . $url . '");</script>
-			';
-        	return $css.$html.$js;
+            //$js = '<script src="catalog/view/javascript/kyash_success.js" type="text/javascript"></script>';
+        	return $css.$html;
 		}
 	}
 }

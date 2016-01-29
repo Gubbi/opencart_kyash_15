@@ -37,7 +37,7 @@
     <file name="catalog/view/theme/default/template/common/success.tpl">
         <operation info="Modifying catalog/view/theme/default/template/common/success.tpl">
             <search position="before"><![CDATA[
-            <?php echo $content_bottom; ?></div>
+            <?php echo $text_message; ?>
             ]]></search>
             <add><![CDATA[
             <!-- Begin Kyash -->

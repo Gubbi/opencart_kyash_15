@@ -137,7 +137,7 @@ class ControllerPaymentKyash extends Controller {
             $this->data['pg_text'] = $this->config->get('kyash_pg_text');
             if(empty($this->data['pg_text']))
             {
-                $this->data['pg_text'] = 'Kyash - Pay at a nearby Shop';
+                $this->data['pg_text'] = 'Pay by cash at a nearby shop';
             }
         }
 

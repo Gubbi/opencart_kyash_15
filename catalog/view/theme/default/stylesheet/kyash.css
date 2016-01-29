@@ -1,6 +1,6 @@
 #see_nearby_shops_container {
-    max-height: 450px;
-    /*overflow: auto;*/
+    /*max-height: 450px;*/
+    overflow: auto;
 }
 
 #see_nearby_shops_container, .kyash_succcess_instructions {

@@ -75,16 +75,6 @@ class KyashModel extends Model {
                         $message = '<br/>You have shipped before Kyash payment was done. Kyash payment collection has been cancelled for this order.';
                         return $message;
                     }
-                    else if ($kyash_status === 'paid') {
-                        $response = $this->api->capture($kyash_code);
-                        if (isset($response['status']) && $response['status'] === 'error') {
-                            return '<span class="error">' . $response['message'] . '</span>';
-                        }
-
-                        $this->updateKyashStatus($order_id, 'captured');
-                        $message = '<br/>Kyash payment has been successfully captured.';
-                        return $message;
-                    }
                 }
             }
         }
