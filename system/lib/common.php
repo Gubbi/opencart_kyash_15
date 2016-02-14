@@ -51,40 +51,6 @@ class KyashModel extends Model {
                         }
                         return $message;
                     }
-                    else if ($kyash_status === 'captured') {
-                        $message = 'Customer payment has already been captured. Refunds if any, are to be handled by you.';
-                        return $message;
-                    }
-                }
-                else if ($order_info['order_status_id'] == 3) {
-                    $server_kc = $this->api->getKyashCode($kyash_code);
-                    if (isset($server_kc['status']) && $server_kc['status'] !== 'error') {
-                        if ($kyash_status !== $server_kc['status']) {
-                            $this->updateKyashStatus($order_id, $server_kc['status']);
-                            $kyash_status = $server_kc['status'];
-                        }
-                    }
-
-                    if ($kyash_status === 'pending') {
-                        $response = $this->api->cancel($kyash_code);
-                        if (isset($response['status']) && $response['status'] === 'error') {
-                            return '<span class="error">' . $response['message'] . '</span>';
-                        }
-
-                        $this->updateKyashStatus($order_id, 'cancelled');
-                        $message = '<br/>You have shipped before Kyash payment was done. Kyash payment collection has been cancelled for this order.';
-                        return $message;
-                    }
-                    else if ($kyash_status === 'paid') {
-                        $response = $this->api->capture($kyash_code);
-                        if (isset($response['status']) && $response['status'] === 'error') {
-                            return '<span class="error">' . $response['message'] . '</span>';
-                        }
-
-                        $this->updateKyashStatus($order_id, 'captured');
-                        $message = '<br/>Kyash payment has been successfully captured.';
-                        return $message;
-                    }
                 }
             }
         }
