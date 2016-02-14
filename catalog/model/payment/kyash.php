@@ -47,8 +47,8 @@ class ModelPaymentKyash extends KyashModel {
 
 		$html = '
         <script type="text/javascript" src="//secure.kyash.com/outlets.js"></script>
-		<div style="display: none" id="see_nearby_shops_container">
-		    <kyash:code div="#see_nearby_shops_container" merchant_id="'.$this->settings["kyash_public_api_id"].'" postal_code="'.$postcode.'"></kyash:code>
+		<div style="display: none">
+		    <kyash:code merchant_id="'.$this->settings["kyash_public_api_id"].'" postal_code="'.$postcode.'"></kyash:code>
 		</div>
 		<p id="kyash_payment_instructions">Product will be sent to the shipping address only after payment. If order is cancelled or not delivered, you can avail refund as per our policies.</p>';
 
@@ -124,8 +124,8 @@ class ModelPaymentKyash extends KyashModel {
             $css = '<link href="catalog/view/theme/default/stylesheet/kyash.css" rel="stylesheet">';
 			$html = '
             <script type="text/javascript" src="//secure.kyash.com/outlets.js"></script>
-			<div style="display: none" id="see_nearby_shops_container">
-			    <kyash:code div="#see_nearby_shops_container" merchant_id="'.$this->settings["kyash_public_api_id"].'" postal_code="'.$postcode.'" kyash_code="'.$kyash_code.'"></kyash:code>
+			<div style="display: none">
+			    <kyash:code merchant_id="'.$this->settings["kyash_public_api_id"].'" postal_code="'.$postcode.'" kyash_code="'.$kyash_code.'"></kyash:code>
 			</div>';
 
             //$js = '<script src="catalog/view/javascript/kyash_success.js" type="text/javascript"></script>';
