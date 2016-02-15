@@ -53,10 +53,6 @@
             <td><input type="text" name="kyash_pg_text"  value="<?php echo $pg_text; ?>" /></td>
           </tr>
           <tr>
-            <td><?php echo $entry_instructions; ?></td>
-            <td><textarea cols="80" rows="8" name="kyash_instructions"><?php echo $instructions; ?></textarea></td>
-          </tr>
-          <tr>
             <td><?php echo $entry_total; ?></td>
             <td><input type="text" name="kyash_total" value="<?php echo $kyash_total; ?>" /></td>
           </tr>          

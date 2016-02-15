@@ -13,7 +13,6 @@ $_['entry_api_secrets']     = 'API Secrets:';
 $_['entry_callback_secret'] = 'Callback Secret:';
 $_['entry_callback_url']    = 'Callback URL:';
 $_['entry_pg_text']         = 'Payment Method text:<br /><span class="help">This text will be displayed in payment method list.</span>';
-$_['entry_instructions']    = 'Instructions:';
 
 $_['entry_total']        = 'Total:<br /><span class="help">The checkout total the order must reach before this payment method becomes active.</span>';
 $_['entry_geo_zone']     = 'Geo Zone:';
