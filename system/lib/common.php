@@ -21,7 +21,7 @@ class KyashModel extends Model {
     }
 
     public function getOrderInfo($order_id) {
-        $result = $this->db->query('SELECT kyash_code, kyash_status, kyash_expires FROM ' . DB_PREFIX . 'order  WHERE order_id = ' . (int)$order_id);
+        $result = $this->db->query('SELECT kyash_code, kyash_status, kyash_expires FROM `' . DB_PREFIX . 'order`  WHERE order_id = ' . (int)$order_id);
         return array($result->row['kyash_code'], $result->row['kyash_status'], $result->row['kyash_expires']);
     }
 
