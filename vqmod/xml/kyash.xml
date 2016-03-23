@@ -21,6 +21,18 @@
             //End Kyash
             ]]></add>
         </operation>
+        <operation info="Modifying catalog/controller/api/order.php[For View Button]">
+            <search position="before" regex="false"><![CDATA[
+            $this->template = 'sale/order_history.tpl';
+            ]]></search>
+            <add><![CDATA[
+            //Begin Kyash
+            $this->load->model('payment/kyash');
+            $response = $this->model_payment_kyash->update($this->request->get['order_id']);
+            if(!empty($response)) $this->data['success'] .= $response;
+            //End Kyash
+            ]]></add>
+        </operation>
     </file>
     <file name="catalog/view/theme/default/template/common/success.tpl">
         <operation info="Modifying catalog/view/theme/default/template/common/success.tpl">
