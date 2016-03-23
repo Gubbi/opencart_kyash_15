@@ -21,7 +21,7 @@
             //End Kyash
             ]]></add>
         </operation>
-        <operation info="Modifying catalog/controller/api/order.php[For View Button]">
+        <!--operation info="Modifying catalog/controller/api/order.php[For View Button]">
             <search position="before" regex="false"><![CDATA[
             $this->template = 'sale/order_history.tpl';
             ]]></search>
@@ -32,7 +32,7 @@
             if(!empty($response)) $this->data['success'] .= $response;
             //End Kyash
             ]]></add>
-        </operation>
+        </operation-->
     </file>
     <file name="catalog/view/theme/default/template/common/success.tpl">
         <operation info="Modifying catalog/view/theme/default/template/common/success.tpl">

@@ -21,8 +21,13 @@ class KyashModel extends Model {
     }
 
     public function getOrderInfo($order_id) {
-        $result = $this->db->query('SELECT kyash_code, kyash_status, kyash_expires FROM `' . DB_PREFIX . 'order`  WHERE order_id = ' . (int)$order_id);
-        return array($result->row['kyash_code'], $result->row['kyash_status'], $result->row['kyash_expires']);
+        $result = $this->db->query("SELECT kyash_code, kyash_status, kyash_expires FROM `" . DB_PREFIX . "order`  WHERE order_id = '" . (int)$order_id . "'");
+        if(!$result) {
+            return array(null, null, null);
+        }
+        else {
+            return array($result->row['kyash_code'], $result->row['kyash_status'], $result->row['kyash_expires']);
+        }
     }
 
     public function updateKyashStatus($order_id, $status) {
@@ -30,6 +35,7 @@ class KyashModel extends Model {
     }
 
     public function update($order_id) {
+        //$this->logger->write("Update Called");
         if ($order_id > 0) {
             $order_info = $this->model_order->getOrder($order_id);
             list($kyash_code, $kyash_status, ) = $this->getOrderInfo($order_id);

@@ -17,6 +17,12 @@ class ControllerPaymentKyash extends Controller
 
     protected function index()
     {
+        $order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
+        $this->data['additional'] = "";
+
+        if($order_info){
+            $this->data['additional'] = $this->getShopsLink($order_info['payment_postcode']);
+        }
 
         if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/payment/kyash/kyash.tpl')) {
             $this->template = $this->config->get('config_template') . '/template/payment/kyash/kyash.tpl';
@@ -25,6 +31,24 @@ class ControllerPaymentKyash extends Controller
         }
 
         $this->render();
+    }
+
+    public function getShopsLink($postcode)
+    {
+        $this->language->load('payment/kyash');
+
+        $css = '<link href="catalog/view/theme/default/stylesheet/kyash.css" rel="stylesheet">';
+
+        $html = '
+        <script type="text/javascript" src="//secure.kyash.com/outlets.js"></script>
+        <p id="kyash_payment_instructions">Product will be sent to the shipping address only after payment. If order is cancelled or not delivered, you can avail refund as per our policies.</p>
+		<div style="display: none">
+		    <kyash:code merchant_id="'.$this->settings["kyash_public_api_id"].'" postal_code="'.$postcode.'"></kyash:code>
+		</div>';
+
+        $js = '<script src="catalog/view/javascript/kyash.js" type="text/javascript"></script>';
+
+        return $css.$js.$html;
     }
 
     public function placeorder()
