@@ -1,4 +1,5 @@
-<div id="payment">
+<div class="content" id="payment">
+    <p><?php echo $additional; ?></p>
 </div>
 <div class="buttons">
   <div class="right">

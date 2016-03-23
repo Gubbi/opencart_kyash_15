@@ -26,36 +26,18 @@ class ModelPaymentKyash extends KyashModel {
 
 		$method_data = array();
 
-		if ($status) { 
-			$additional = $this->getShopsLink($address['postcode']);
+		if ($status) {
 		
 			$method_data = array(
 				'code'       => 'kyash',
-				'title'      => $this->language->get('text_title').$additional,
+				'title'      => $this->language->get('text_title'),
 				'sort_order' => $this->config->get('kyash_sort_order')
 			);
 		}
 
 		return $method_data;
 	}
-	
-	public function getShopsLink($postcode)
-	{
-		$this->language->load('payment/kyash');
 
-        $css = '<link href="catalog/view/theme/default/stylesheet/kyash.css" rel="stylesheet">';
-
-		$html = '
-        <script type="text/javascript" src="//secure.kyash.com/outlets.js"></script>
-		<div style="display: none">
-		    <kyash:code merchant_id="'.$this->settings["kyash_public_api_id"].'" postal_code="'.$postcode.'"></kyash:code>
-		</div>
-		<p id="kyash_payment_instructions">Product will be sent to the shipping address only after payment. If order is cancelled or not delivered, you can avail refund as per our policies.</p>';
-
-        $js = '<script src="catalog/view/javascript/kyash.js" type="text/javascript"></script>';
-
-        return $css.$js.$html;
-	}
 
 	public function getOrderParams($order_info)
 	{
